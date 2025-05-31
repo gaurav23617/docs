@@ -1,175 +1,210 @@
 .terminal {
-  --code-margin-top: 12px;
-  --padding: 7px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+  width: 100%;
+  max-width: 900px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 auto;
+}
 
-  /* Mac's traffic light button colors */
-  --color-sunset-orange: #ff605c;
-  --color-pastel-orange: #ffbd44;
-  --color-malachite: #00ca4e;
-
-  /* Adwaita colors (see https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1.2/named-colors.html) */
-  --adw-headerbar-color: #303030;
-  --adw-headerbar-shade-color: rgba(0, 0, 0, 0.36);
-
-  &.fontXTiny {
-    --title-font-size: 12px;
-    --content-font-size: 6px;
-    --content-character-width: 3.6px;
-    --content-character-height: 9px;
+@media (max-width: 768px) {
+  .terminal {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
+}
 
-  &.fontTiny {
-    --title-font-size: 14px;
-    --content-font-size: 10px;
-    --content-character-width: 6px;
-    --content-character-height: 13.8px;
-  }
+.terminal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
 
-  &.fontSmall {
-    --title-font-size: 14px;
-    --content-font-size: 12px;
-    --content-character-width: 7.2px;
-    --content-character-height: 16.6px;
-  }
-
-  &.fontMedium {
-    --title-font-size: 16px;
-    --content-font-size: 14px;
-    --content-character-width: 8.4px;
-    --content-character-height: 19.1px;
-  }
-
-  &.fontLarge {
-    --title-font-size: 16px;
-    --content-font-size: 16px;
-    --content-character-width: 9.6px;
-    --content-character-height: 21.5px;
-  }
-
-  width: calc((var(--columns) * var(--content-character-width)) + (2 * var(--padding)) + 2px);
-  height: calc((var(--rows) * var(--content-character-height)) + (2 * var(--padding)) + var(--control-size) + var(--code-margin-top));
-  background: var(--gray-0);
-  border: 1px solid var(--gray-3);
-  border-radius: 10px;
-
+.terminalHeader {
+  background: #323232;
+  padding: 12px 16px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #404040;
+}
 
-  & .header {
-    display: grid;
-    align-items: center;
-    position: relative;
-    border-radius: 9px 9px 0px 0px;
-    padding: var(--padding);
+.terminalButtons {
+  display: flex;
+  gap: 8px;
+}
 
-    grid-template: "start title end";
-    grid-template-columns: 1fr 1fr 1fr;
+.terminalButton {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
 
-    & .windowControls {
-      list-style: none;
-      display: flex;
+.terminalButton:hover {
+  opacity: 0.8;
+}
 
-      &.start {
-        justify-content: start;
-        grid-area: start;
-      }
+.close {
+  background: #ff5f57;
+}
 
-      &.end {
-        justify-content: end;
-        grid-area: end;
-      }
+.minimize {
+  background: #ffbd2e;
+}
 
-      & li {
-        width: var(--control-size);
-        height: var(--control-size);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+.maximize {
+  background: #28ca42;
+}
 
-        &.circularButton {
-          background: var(--gray-3);
-          border-radius: var(--control-size);
-        }
+.terminalTitle {
+  color: #c9c9c9;
+  font-size: 13px;
+  font-weight: 500;
+  flex: 1;
+  text-align: center;
+  margin-right: 80px;
+  /* Offset for the buttons */
+}
 
-        & .icon {
-          transform: scale(75%);
-        }
-      }
-    }
+.terminalBody {
+  background: #1e1e1e;
+  padding: 16px;
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Prevent horizontal overflow */
+}
 
-    & .title {
-      text-align: center;
-      font-size: var(--title-font-size);
-      grid-area: title;
-    }
+.terminalContent {
+  color: #c9c9c9;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Ensure long text wraps properly */
+}
+
+.line {
+  margin: 0;
+  padding: 0;
+  min-height: 1.4em;
+  display: block;
+  word-break: break-word;
+  /* Prevent text from overflowing */
+}
+
+.cursor {
+  color: #00ff00;
+  font-weight: bold;
+  display: inline-block;
+  animation: none;
+}
+
+.cursor.blinking {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
   }
 
-  & .content {
-    font-size: var(--content-font-size);
-    padding-top: var(--code-margin-top);
-    color: var(--gray-6);
-    word-wrap: break-word;
-    scroll-behavior: smooth;
-    overflow-y: scroll;
-    padding: var(--padding);
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
 
-    &.disableScrolling {
-      overflow-y: hidden;
-    }
+/* Color schemes for terminal output */
+.line :global(.ansi-bright-green) {
+  color: #50fa7b;
+}
 
-    &>div {
-      white-space: pre-wrap;
+.line :global(.ansi-bright-blue) {
+  color: #8be9fd;
+}
 
-      & :global(.b) {
-        color: var(--brand-color);
-      }
-    }
+.line :global(.ansi-bright-yellow) {
+  color: #f1fa8c;
+}
+
+.line :global(.ansi-bright-red) {
+  color: #ff5555;
+}
+
+.line :global(.ansi-bright-magenta) {
+  color: #ff79c6;
+}
+
+.line :global(.ansi-bright-cyan) {
+  color: #8be9fd;
+}
+
+.line :global(.ansi-bright-white) {
+  color: #f8f8f2;
+}
+
+.line :global(.ansi-green) {
+  color: #50fa7b;
+}
+
+.line :global(.ansi-blue) {
+  color: #6272a4;
+}
+
+.line :global(.ansi-yellow) {
+  color: #f1fa8c;
+}
+
+.line :global(.ansi-red) {
+  color: #ff5555;
+}
+
+.line :global(.ansi-magenta) {
+  color: #ff79c6;
+}
+
+.line :global(.ansi-cyan) {
+  color: #8be9fd;
+}
+
+.line :global(.ansi-white) {
+  color: #f8f8f2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .terminal {
+    font-size: 12px;
+    width: 100%;
+    max-width: 100%;
   }
 
-  &.adwaita {
-    --control-size: 18px;
-    box-shadow: 0px 2px 1px var(--adw-headerbar-shade-color);
-
-    & .header {
-      background: var(--adw-headerbar-color);
-      border-bottom: 2px var(--adw-headerbar-shade-color);
-
-      & .windowControls {
-        gap: 12px;
-      }
-
-      & .title {
-        color: white;
-        font-weight: 800;
-      }
-
-      & .icon {
-        color: white;
-      }
-    }
+  .terminalBody {
+    padding: 12px;
+    height: 400px;
   }
 
-  &.macos {
-    --control-size: 12px;
+  .terminalHeader {
+    padding: 8px 12px;
+  }
 
-    & .header {
-      padding: var(--padding) 11px;
-    }
+  .terminalTitle {
+    font-size: 12px;
+    margin-right: 60px;
+  }
 
-    & .windowControls {
-      gap: 8px;
-
-      & li:first-child {
-        background: var(--color-sunset-orange);
-      }
-
-      & li:nth-child(2) {
-        background: var(--color-pastel-orange);
-      }
-
-      & li:last-child {
-        background: var(--color-malachite);
-      }
-    }
+  .terminalButton {
+    width: 10px;
+    height: 10px;
   }
 }
